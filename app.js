@@ -10,7 +10,7 @@ const serialRouter = require('./routes/serial');
 
 var app = express();
 
-// const serialStuff = require('./proofOverSerial')
+const serialStuff = require('./proofOverSerial')
 //serial port router
 
 // view engine setup
