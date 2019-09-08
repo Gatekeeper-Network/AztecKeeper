@@ -12,8 +12,8 @@ var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-//const serialStuff = require('./proofOverSerial')
 //serial port router
+const serialStuff = require('./proofOverSerial')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -46,8 +46,10 @@ app.post('/Transfer', function(req, res) {
 });
 app.post('/Relay', function(req, res) {
   let TXdata=req.body.TXdata
-  res=TXdata
-  console.log(res)
+
+    serialStuff("string");
+
+
   return res
 })
 
