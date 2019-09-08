@@ -22,8 +22,11 @@ const proof = new JoinSplitProof(inputNotes, outputNotes, sender, publicValue, p
 
 //data can be directly fed into an ZkAsset.sol contract's confidentialTransfer method
 const data = proof.encodeABI(validatorAddress);
+//console.log('data', data);
+return data
 
-console.log('data', proof);
 }
 
 GenerateTransferTX(accounts[0],accounts[1],150,10)
+
+module.exports.GenerateTransferTX=GenerateTransferTX;
