@@ -1,30 +1,6 @@
 import Web3 from 'web3';
+var ethUtil = require('ethereumjs-util')
 
-const domainParams = [
-    {
-        name: 'name',
-        type: 'string',
-    },
-    {
-        name: 'version',
-        type: 'string',
-    },
-    {
-        name: 'verifyingContract',
-        type: 'address',
-    },
-];
-
-const AZTECAccount = [
-    {
-        name: 'account',
-        type: 'address',
-    },
-    {
-        name: 'linkedPublicKey',
-        type: 'bytes',
-    },
-];
 
 class Web3Service {
 
@@ -57,32 +33,7 @@ class Web3Service {
             }
         }
     }
-    registerExtension({ response }) {
-        const accountRegistryContract = this.contract('AZTECAccountRegistry');
     
-        const domainData = {
-            name: 'AZTECAccountRegistry',
-            version: '2',
-            verifyingContract: accountRegistryContract.address,
-        };
-    
-        const message = {
-            account: response.response.address,
-            linkedPublicKey: response.response.linkedPublicKey,
-        };
-    
-        const data = JSON.stringify({
-            types: {
-                EIP712Domain: domainParams,
-                AZTECAccount,
-            },
-            domain: domainData,
-            primaryType: 'AZTECAccount',
-            message,
-        });
-    
-        return data;
-    }
 
     registerContract(
         config,
@@ -223,20 +174,23 @@ class Web3Service {
         value:"0" ,
         data: MethodData
       }
-    console.log(tx)
-    let str='0x00000000'
-    console.log(address)
-    var params = ['data', address]
-   
-   
+        console.log(tx)
+
+        let str='0x00000000'
+        console.log(address)
+        var text = 'hello!'
+        var msg = ethUtil.bufferToHex(new Buffer(text, 'utf8'))
+        var params = [msg, address]
     
-        let meth = 'personal_ecRecover'
-        await this.web3.currentProvider.sendAsync({
+       console.log(params)
+    
+        let meth = 'personal_sign'
+        let sig =await this.web3.currentProvider.sendAsync({
             meth,
             params,
             address,
           })
-             
+         console.log(sig)    
     
         }
     triggerMethod = async (type, method, ...args) => {
@@ -316,10 +270,6 @@ class Web3Service {
                    return element.name==methodName
                 })
                 console.log(MethodABI)
-                if(methodName=='confidentialTransfer'){
-                    console.log('canceling')
-                    return
-                }
                 const method = contract.methods[methodName];
                 if (!method) {
                     throw new Error(`Method '${methodName}' is not defined in contract '${contractName}'.`);
@@ -356,23 +306,7 @@ class Web3Service {
         };
     }
 
-  makeSig=async( {data} ) => {
-        let eip712Data;
-        const { address } = this.account;
-        eip712Data = this.registerExtension(data);
-       
-        const { result } = await this.sendAsync({
-            method: 'eth_signTypedData_v3',
-            params: [address, eip712Data],
-            from: address,
-        });
-        return {
-            ...data,
-            signature: result,
-        };
-        
-        }
-
+ 
 
 }
 export default new Web3Service();

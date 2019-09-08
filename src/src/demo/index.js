@@ -158,15 +158,16 @@ export const send = async ({
         numberOfOutputNotes: 1,
     });
     let exported=sendProof.export()
+    console.log(exported)
     let TXdata=exported.encodeABI(zkAssetAddress)
     console.log(TXdata.length)
     console.log('Approving send proof...');
-   // await sendProof.approve();
+    await sendProof.approve();
     console.log('Approved!');
    
     console.log('Sending...');
-   // await sendProof.send(); //Send to server instead
-   
+    //await sendProof.send(); 
+    window.alert(TXdata+" Your Transaction is being sent through LoRa")
     axios.post('http://localhost:3000/Relay', {
         TXdata
       })

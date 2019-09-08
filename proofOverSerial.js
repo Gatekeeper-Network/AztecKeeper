@@ -2,7 +2,7 @@
 
 const SerialPort = require('serialport')
 
-const serialPath = "/dev/ttyUSB0"
+const serialPath = "/dev/cu.SLAB_USBtoUART"
 
 const serialport = new SerialPort(serialPath, {baudRate: 115200 })
 
@@ -12,8 +12,8 @@ console.log("serial")
 //
 // parser.on('data', console.log)
 
-function writestuff(string) {
-    serialport.write('signed proof from host', function (e) {
+ function writestuff(string) {
+    serialport.write('st', function (e) {
         if (e) {
             console.log("error: ", e);
         }
@@ -44,4 +44,4 @@ function writestuff(string) {
 
 
 
-module.exports = writestuff();
+module.exports.writestuff = writestuff;

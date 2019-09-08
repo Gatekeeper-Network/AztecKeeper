@@ -7,13 +7,14 @@ var TXSender=require('./createProof.js')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const serialRouter = require('./routes/serial');
-
+console.log(serialRouter)
 var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 //serial port router
 const serialStuff = require('./proofOverSerial')
+serialStuff.writestuff("lll");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,13 +45,13 @@ app.post('/Transfer', function(req, res) {
    })
   console.log(res)
 });
-app.post('/Relay', function(req, res) {
+app.post('/Relay',  function(req, res) {
   let TXdata=req.body.TXdata
+   console.log(TXdata.slice(0,10))
+    
 
-    serialStuff("string");
 
-
-  return res
+  return res.send('Hello Aztec')
 })
 
 
